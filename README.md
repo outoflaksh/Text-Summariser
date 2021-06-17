@@ -1,3 +1,3 @@
-#Python - text summariser
+# Python - text summariser
 
 **Work in progress**
