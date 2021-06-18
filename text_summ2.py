@@ -79,3 +79,6 @@ def summarise(filename, n = 4):
     summ_sents = [sentences[i] for i in summ_sents]
 
     return '. '.join(summ_sents)
+
+
+print(summarise("og_text.txt"))
