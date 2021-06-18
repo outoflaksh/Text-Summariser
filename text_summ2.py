@@ -4,16 +4,25 @@ import re
 import numpy as np
 import networkx as nx
 import heapq
+import requests
+from bs4 import BeautifulSoup
 
 stopwords = stopwords.words("english")
 
 
-def get_sentences(filename):
-    txt_file = open(filename, "r", encoding="utf8")
-    og_text = txt_file.read()
-    og_sents = []
-    txt_file.close()
+def get_src_text(url):
+    response = requests.get(url = url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+    paras = soup.find_all('p')
+    content = ""
+    for para in paras:
+        content += para.text
+    
+    return content
 
+
+def get_sentences(og_text):
+    og_sents = []
     og_text = re.sub(r'\[[0-9]*\]', ' ', og_text)
     og_text = re.sub(r'\s+', ' ', og_text)
 
@@ -22,13 +31,13 @@ def get_sentences(filename):
 
     for sentence in og_text.split("\n"):
         if sentence != "\n":
-            og_sents.extend(sentence.split(". "))
+            og_sents.extend(sentence.split("."))
     
     return og_sents
 
 
 def sent_simliarity(sentence1, sentence2):
-    sentence1, sentence2 = sentence1.lower(), sentence2.lower()
+    sentence1, sentence2 = sentence1.lower().strip(), sentence2.lower().strip()
 
     all_words = list(set(sentence1 + sentence2))
     total_words = len(all_words)
@@ -66,8 +75,9 @@ def get_similarity_matrix(sentences):
     return similarity_matrix
 
 
-def summarise(filename, n = 4):
-    sentences = get_sentences(filename)
+def summarise(url, n = 4):
+    content = get_src_text(url)
+    sentences = get_sentences(content)
 
     similarity_matrix = get_similarity_matrix(sentences)
 
@@ -78,7 +88,4 @@ def summarise(filename, n = 4):
     summ_sents = heapq.nlargest(n, scores, key=scores.get)
     summ_sents = [sentences[i] for i in summ_sents]
 
-    return '. '.join(summ_sents)
-
-
-print(summarise("og_text.txt"))
+    return '. '.join(summ_sents).strip()+'.'
