@@ -2,14 +2,33 @@
 
 from nltk.corpus import stopwords
 from nltk.cluster.util import cosine_distance
+from nltk import word_tokenize
 import re
 import numpy as np
 import networkx as nx
 import heapq
 import requests
 from bs4 import BeautifulSoup
+from nltk.stem import WordNetLemmatizer, PorterStemmer
+stemmer = PorterStemmer()
+lemmatizer = WordNetLemmatizer() 
 
 stopwords = stopwords.words("english")
+
+def process_sentence(sentence):
+    #remove numbers
+    sentence = re.sub(r'\d+', '', sentence.lower().strip())
+
+    #remove punctuation
+    sentence = re.sub(r'[^a-zA-z]+', ' ', sentence)
+
+    #tokenize the sentences
+    sentence = word_tokenize(sentence)
+
+    #removing stopwords
+    sentence = [lemmatizer.lemmatize(stemmer.stem(word)) for word in sentence if word not in stopwords]
+
+    return ' '.join(sentence)
 
 
 def get_src_text(url):
@@ -18,28 +37,18 @@ def get_src_text(url):
     paras = soup.find_all('p')
     content = ""
     for para in paras:
-        content += para.text
+        content += ' ' + para.text
     
     return content
 
 
 def get_sentences(og_text):
-    og_sents = []
-    og_text = re.sub(r'\[[0-9]*\]', ' ', og_text)
-    og_text = re.sub(r'\s+', ' ', og_text)
-
-    processed_txt = re.sub(r'[^a-zA-z]', ' ', og_text)
-    processed_txt = re.sub(r'\s+', ' ', processed_txt)
-
-    for sentence in og_text.split("\n"):
-        if sentence != "\n":
-            og_sents.extend(sentence.split("."))
-    
+    og_sents = og_text.split('.')
     return og_sents
 
 
 def sent_simliarity(sentence1, sentence2):
-    sentence1, sentence2 = sentence1.lower().strip(), sentence2.lower().strip()
+    sentence1, sentence2 = process_sentence(sentence1), process_sentence(sentence2)
 
     all_words = list(set(sentence1 + sentence2))
     total_words = len(all_words)
@@ -52,12 +61,10 @@ def sent_simliarity(sentence1, sentence2):
     # word is located in the all_words list
 
     for word in sentence1:
-        if word not in stopwords:
-            vector1[all_words.index(word)] += 1
+        vector1[all_words.index(word)] += 1
 
     for word in sentence2:
-        if word not in stopwords:
-            vector2[all_words.index(word)] += 1
+        vector2[all_words.index(word)] += 1
     
     similarity = 1 - cosine_distance(vector1, vector2)
 
