@@ -1,5 +1,12 @@
 # Text Summarisation using Python
 
+<p align = "center">
+<a href = "www.python.org">
+<img src = "http://ForTheBadge.com/images/badges/made-with-python.svg">
+</a>
+</p>
+
+
 Text summarisation is a challenging problem in Natural Language Processing (NLP) tasks. The task at hand involves taking a large text file and summarise it in a way that the core meaning and important points can be represented in a much smaller text. There have been different approaches devised to achieve the same.
 
 ### Approaches:
