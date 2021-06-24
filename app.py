@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, json, render_template,  request, jsonify
 from text_summ2 import summarise
 
 app = Flask(__name__)
@@ -16,6 +16,16 @@ def summary():
         return render_template("index.html", summary = "Sorry, summary could not be created!")
     return render_template("index.html", summary = summary)
 
+@app.route("/summarise", methods = ['POST'])
+def get_summary():
+    data = request.get_json()
+    #validate url
+    try:
+        summary = summarise(data['url'])
+    except:
+        return jsonify({'message' : 'Summary could not be created!'})
+
+    return jsonify({'summary' : summary})
 
 if __name__ == "__main__":
     app.run(debug=True)
