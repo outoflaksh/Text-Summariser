@@ -1,4 +1,4 @@
-# Text Summarisation using Python
+# Text Summarisation using TextRank
 
 <p align = "center">
 <a href = "https://www.python.org">
@@ -20,6 +20,9 @@ Two kinds of approaches are employed for summarising texts:
 This repository has two different files that are capable of summarising texts. Both use extractive approaches, in that, they both aim to find out the most important sentences from the full original text by some metrics. 
 
 The more successful one was the second file "text_summ2.py" that implements the TextRank algorithm. It's an unsupervised machine learning technique in NLP based on the *PageRank* algorithm used by search engines like Google to rank webpages in search results.
+
+Example of a summary created based on [this link]("https://www.investopedia.com/terms/c/cloud-computing.asp"):
+> *Companies that provide cloud services enable users to store files and applications on remote servers and then access all the data via the Internet. Cloud computing services also make it possible for users to back up their music, files, and photos, ensuring those files are immediately available in the event of a hard drive crash. Cloud-based software offers companies from all sectors a number of benefits, including the ability to use software from any device either via a native app or a browser. For example, Adobe customers can access applications in its Creative Cloud through an Internet-based subscription.*
 
 ### TextRank:
 The algorithm involves extracting all individual sentences from the full original text and then doing some standard preprocessing like making all letters lowercase, removing digits and punctuation, removing stopwords, and stemming+lemmatizing individual words.
