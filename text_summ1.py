@@ -1,4 +1,4 @@
-#THIS WAS A FUCKING FAILURE
+#Approach 1: Poor results
 
 import nltk
 import re
