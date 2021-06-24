@@ -24,7 +24,7 @@ The more successful one was the second file "text_summ2.py" that implements the 
 Example of a summary created based on [this link](https://www.investopedia.com/terms/c/cloud-computing.asp):
 > *Companies that provide cloud services enable users to store files and applications on remote servers and then access all the data via the Internet. Cloud computing services also make it possible for users to back up their music, files, and photos, ensuring those files are immediately available in the event of a hard drive crash. Cloud-based software offers companies from all sectors a number of benefits, including the ability to use software from any device either via a native app or a browser. For example, Adobe customers can access applications in its Creative Cloud through an Internet-based subscription.*
 
-### TextRank:
+### ⚙️TextRank:
 The algorithm involves extracting all individual sentences from the full original text and then doing some standard preprocessing like making all letters lowercase, removing digits and punctuation, removing stopwords, and stemming+lemmatizing individual words.
 
 The sentences are then converted into vectors, and cosine similarity between them is calculated which is then entered into a similarity matrix where each element represents sentence i's similarity with sentence j.
