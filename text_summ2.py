@@ -95,6 +95,6 @@ def summarise(url, n = 4):
     scores = nx.pagerank(similarity_graph)
 
     summ_sents = heapq.nlargest(n, scores, key=scores.get)
-    summ_sents = [sentences[i] for i in summ_sents]
+    summ_sents = [sentences[i].strip() for i in summ_sents]
 
     return '. '.join(summ_sents).strip()+'.'
